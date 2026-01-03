@@ -1,8 +1,12 @@
 ﻿#include "qpn.h"
-#include "bsp.h"
+#include "../../include/bsp.h"
 
 #include <Arduino.h>
 #include "constants.h"
+
+void BSP_configureTimeout(void)
+{
+}
 
 void BSP_init(void)
 {

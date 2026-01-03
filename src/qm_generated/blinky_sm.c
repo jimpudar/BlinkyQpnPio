@@ -30,8 +30,7 @@
 /*.${AOs::Blinky::SM} ......................................................*/
 QState Blinky_initial(Blinky * const me) {
     /*.${AOs::Blinky::SM::initial} */
-        QActive_armX((QActive *)me, 0U,
-                     BSP_TICKS_PER_SEC/2U, BSP_TICKS_PER_SEC/2U);
+    Blinky_armTimeout((QActive *) me);
     return Q_TRAN(&Blinky_off);
 }
 /*.${AOs::Blinky::SM::off} .................................................*/
