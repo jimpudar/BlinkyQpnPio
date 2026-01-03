@@ -1,4 +1,4 @@
-/*
+﻿/*
     BlinkyQpnPio - Example QP-nano + PlatformIO project
     Copyright (C) 2026 Jim Pudar
 
@@ -19,10 +19,30 @@
 
 #include "qpn.h"
 #include <Arduino.h>
+
+#include "bsp.h"
+#include "qm_generated/blinky_sm.h"
+
+Blinky AO_Blinky;
+static QEvt l_blinkyQSto[10];
+
+QActiveCB const Q_ROM QF_active[] = {
+    { (QActive *)0,           (QEvt *)0,        0U                  },
+    { (QActive *)&AO_Blinky,  l_blinkyQSto,     Q_DIM(l_blinkyQSto) }
+};
+
 void setup() {
-// write your initialization code here
+    QF_init(Q_DIM(QF_active));
+
+    QActive_ctor(&AO_Blinky.super, Q_STATE_CAST(&Blinky_initial));
+
+    BSP_init();
 }
 
 void loop() {
-// write your code here
+    QF_run(); // run the QF-nano framework
+}
+
+ISR(TIMER2_COMPA_vect) {
+    QF_tickXISR(0); // process time events for tick rate 0
 }
